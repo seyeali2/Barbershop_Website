@@ -1,0 +1,41 @@
+.faq-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+    color: darkgray;
+}
+
+.faq-answer {
+    font-size: 16px;
+    margin: 10px 0;
+    display: none;
+}
+
+/* Style pour les cases à cocher personnalisées */
+.faq-item input[type="checkbox"] {
+    display: none;
+}
+
+.faq-item input[type="checkbox"] + .faq-question + .faq-answer {
+    display: none;
+}
+
+.faq-item input[type="checkbox"]:checked + .faq-question + .faq-answer {
+    display: block;
+}

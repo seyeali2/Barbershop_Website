@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<style>
+
+    body {
+        background-color: #bee0e6;
+    }
+
+
+.rolee{
+    padding: 10px;
+}
+
+header{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    padding: 7px ;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transition: 0,5s;
+    background-color: #fff;
+}
+
+.babyland{
+    color: #020000;
+    font-weight: bold;
+    font-size: 2em;
+    text-decoration: none;
+    padding-left: 30%;
+}
+
+.babyland span{
+color: rgb(124, 187, 189);
+font-size: 1em;
+}
+
+
+p {
+    font-family: 'Times New Roman', Times, serif;
+    margin : 5%;
+    
+    
+}
+
+
+#roulette {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--primary-color);
+
+}
+
+.containero {
+    top: -150px;
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containero .spinBtn {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 0.1em;
+    border: 4px solid rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+    user-select: none;
+}
+
+.containero .spinBtn::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    width: 20px;
+    height: 30px;
+    background: #fff;
+    clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+
+}
+
+.containero .wheel {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: #333;
+border-radius: 50%;
+overflow: hidden;
+box-shadow: 0 0 0 5px #333, 0 0 0 15px #fff, 0 0 0 18px #111 ;
+transition: transform 5s ease-in-out;
+
+}
+
+.containero .wheel .number {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background: var(--clr);
+    transform-origin: bottom right;
+    transform: rotate(calc(45deg * var(--i)));
+    clip-path: polygon(0 0, 56% 0, 100% 100%, 0 56%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.containero .wheel .number span{
+    position: relative;
+    transform: rotate(45deg);
+    font-size: 2em;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 3px 5px 2px rgba(0, 0, 0, 0.15);
+}
+
+.containero .wheel .number span::after{
+    position: absolute;
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+</style>
+
+
+<header>
+    <a href="../index.php" class="babyland"> <span>Baby</span>land</a>
+    <div class=menutoggle onclick="toggleMenu();"></div>
+    
+</header>
+
+<p>            Lors de votre première prise de rendez-vous avec l'un de nos talentueux baby-sitters,
+    vous avez le privilège exclusif de tourner notre roulette enchantée. Chez Babyland, nous croyons que chaque début mérite d'être célébré, et notre roulette magique est là pour ajouter une touche de surprise et de joie à votre expérience de babysitting. 
+    Croisez les doigts et laissez la chance décider : une réduction surprise attend derrière chaque rotation pour rendre votre premier rendez-vous encore plus spécial!</p>
+
+<body>
+
+    <section class="roulette" id="roulette">
+
+    <div class="containero">
+        <div class="spinBtn"> Spin </div>
+        <div class="wheel">
+        <div class="number" style="--i:1;--clr:#74cddd;"> <span> 10% </span></div>
+        <div class="number" style="--i:2;--clr:#e2d777;"> <span> 15% </span></div>
+        <div class="number" style="--i:3;--clr:#7770db;"> <span> 17% </span></div>
+        <div class="number" style="--i:4;--clr:#e07f9f;"> <span> 5% </span></div>
+        <div class="number" style="--i:5;--clr:#83dd77;"> <span> 3% </span></div>
+        <div class="number" style="--i:6;--clr:#dd6161;"> <span> 25% </span></div>
+        <div class="number" style="--i:7;--clr:#db70db;"> <span> 20% </span></div>
+        <div class="number" style="--i:8;--clr:#d6765e;"> <span> 7% </span></div>
+        </div>
+        <div class="result"></div>
+        </div>
+
+
+    </section>
+
+    <script>
+    let wheel = document.querySelector('.wheel');
+    let spinBtn = document.querySelector('.spinBtn'); // S'assurer que cela sélectionne bien votre div
+    let result = document.querySelector('.result'); // Assurez-vous d'avoir un élément avec la classe 'result' dans votre HTML
+    let value = Math.ceil(Math.random() * 3600);
+
+    spinBtn.addEventListener('click', function() {
+        wheel.style.transform = "rotate(" + value + "deg)";
+        let finalDegree = value % 360;
+        value += Math.ceil(Math.random() * 3600);
+
+        // Ajoutez un délai avant d'exécuter la requête AJAX pour laisser le temps à la roue de finir sa rotation
+        setTimeout(() => {
+            // Déterminer le segment sur lequel la roue s'est arrêtée
+            let segmentIndex = Math.floor(finalDegree / (360 / 8)); // Pour 8 segments
+
+            // Créer une requête AJAX
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "generatemessage.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Mettre à jour l'élément résultat avec la réponse du serveur
+                    result.innerHTML = this.responseText;
+                }
+            };
+            xhr.send("segmentIndex=" + segmentIndex);
+        }, 4000); // Ajustez ce temps selon la durée de votre animation
+    });
+</script>
+
+
+
+</body>
+</html>
+
